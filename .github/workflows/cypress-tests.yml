@@ -1,11 +1,14 @@
 name: Cypress Tests
 
+env:
+  browser: electron
+
 on:
   workflow_dispatch:
     inputs:
       cli:
         description: Run by cypress command line
-        default: yarn cypress run
+        default: yarn cypress run --browser=$browser
 
 jobs:
   cypress-electron-tests:
@@ -18,4 +21,18 @@ jobs:
         run: yarn install
       
       - name: Run E2E tests
+        run: ${{ github.event.inputs.cli }}
+        
+  cypress-chrome-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3.3.0
+        
+      - name: Install dependencies
+        run: yarn install
+      
+      - name: Run E2E tests 
+        env:
+          browser: chrome
         run: ${{ github.event.inputs.cli }}
