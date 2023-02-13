@@ -36,3 +36,17 @@ jobs:
         env:
           browser: chrome
         run: ${{ github.event.inputs.cli }}
+        
+  cypress-firefox-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3.3.0
+        
+      - name: Install dependencies
+        run: yarn install
+      
+      - name: Run E2E tests 
+        env:
+          browser: firefox
+        run: ${{ github.event.inputs.cli }}
